@@ -6,12 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{% url 'cadastrar' %}" method="post">
-        {% csrf_token %}
-         Nome: <input type="text" name="nome_produto">
-         Descricao: <input type="text" name="descricao_produto">
-         Preço: <input step="0.01" type="number" name="preco_produto">
-         <button type="submit">Salvar</button>
-    </form>
+    
 </body>
 </html>
