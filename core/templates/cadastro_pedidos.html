@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Formulário de cadastro de pedido -->
+    <form action="{% url 'cadastrar_pedido' %}" method="post">
+        {% csrf_token %}
+        Data do pedido: <input type="date" name="data_pedido">
+        Comanda do pedido: <select name="comanda_pedido">
+            {% for comanda in comandas_template %}
+            <option value="{{comanda.id}}">{{comanda.numero}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>

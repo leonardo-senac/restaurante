@@ -37,3 +37,23 @@ def cadastro_comanda(request):
     Comanda.objects.create(numero=nova_comanda)
 
     return redirect(pagina_cadastro_comanda)
+
+def pagina_cadastro_pedidos(request):
+    # Pegar a lista com todas as comandas
+    comandas = Comanda.objects.all()
+
+    # Renderizar a página passando a lista de comandas para o html
+    return render(request, 'cadastro_pedidos.html', {'comandas_template':comandas})
+
+def cadastrar_pedido(request):
+    # Abrir a carta (requisição) e pegar os valores
+    id_comanda = request.POST['comanda_pedido']
+    comanda_pedido = Comanda.objects.get(id=id_comanda)
+
+    data_pedido = request.POST['data_pedido']
+
+    # Utilizar os valores resgatados da carta para adicionar um novo pedido ao banco de dados
+    Pedido.objects.create(data_pedido=data_pedido, comanda=comanda_pedido, valor_total=0, aberto=True)
+
+    # Dar uma resposta à requisição
+    return redirect(pagina_cadastro_pedidos)
