@@ -27,3 +27,13 @@ def cadastrar_prato(request):
     Prato.objects.create(nome=novo_nome, descricao=nova_descricao, preco=novo_preco)
 
     return redirect(pagina_cadastro)
+
+def pagina_cadastro_comanda(request):
+    return render(request, 'cadastro_comandas.html')
+
+def cadastro_comanda(request):
+    nova_comanda = request.POST['numero_comanda']
+
+    Comanda.objects.create(numero=nova_comanda)
+
+    return redirect(pagina_cadastro_comanda)
