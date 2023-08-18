@@ -57,3 +57,49 @@ def cadastrar_pedido(request):
 
     # Dar uma resposta à requisição
     return redirect(pagina_cadastro_pedidos)
+
+# Função que puxa a lista de pedidos do banco e renderiza a página com a lista de pedidos
+def lista_de_pedidos(request):
+    # Puxar a lista de pedidos do banco de dados
+    pedidos = Pedido.objects.filter(aberto=1)
+
+    # Renderizar a página passando os pedidos em aberto
+    return render(request, 'lista_pedidos.html', {'pedidos_template': pedidos})
+
+def fechar_pedido(request, id_pedido):
+    # trazendo para o back-end o pedido que tem o id enviado
+    pedido = Pedido.objects.get(id=id_pedido)
+
+    # alterando o pedido trazido
+    pedido.aberto = 0
+
+    # devolvendo o pedido com a alteração
+    pedido.save()
+
+    return redirect(lista_de_pedidos)
+
+def pagina_inserir_produto_no_pedido(request, id_pedido):
+    pratos = Prato.objects.all()
+    return render(request, 'pagina_do_pedido.html', {'id_pedido': id_pedido, 'pratos': pratos})
+
+def salvar_produto_no_pedido(request, id_pedido):
+    # puxando o pedido com o id selecionado para o back-end
+    pedido = Pedido.objects.get(id=id_pedido)
+
+    # puxando o id do prato da requisição(carta) e
+    # puxando do banco de dados o prato que tem esse id
+    id_prato = request.POST['produto']
+    prato = Prato.objects.get(id=id_prato)
+
+    # calculando o valor que será adicionado ao valor total do pedido
+    quantidade = request.POST['quantidade']
+    pedido.valor_total += prato.preco * int(quantidade)
+
+    # salvando o pedido alterado no banco de dados
+    pedido.save()
+
+    # adicionando o prato ao pedido no banco de dados
+    pratos_pedidos.objects.create(pedido=pedido, prato=prato, quantidade=quantidade)
+
+    # redirecionando para a página com a lista de pedidos
+    return redirect(lista_de_pedidos)

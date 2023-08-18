@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="{% url 'salvar_produto_no_pedido' id_pedido %}" method="post">
+        {% csrf_token %}
+        <select name="produto">
+            {% for prato in pratos %}
+            <option value="{{prato.id}}">{{prato.nome}}</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="quantidade">
+        <button type="submit">Salvar</button>
+    </form>
+</body>
+</html>

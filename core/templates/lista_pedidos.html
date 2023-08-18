@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Data</th>
+            <th>Valor total</th>
+            <th>Comanda</th>
+        </tr>
+        {% for pedido in pedidos_template %}
+        <tr>
+            <td>{{pedido.id}}</td>
+            <td>{{pedido.data_pedido}}</td>
+            <td>{{pedido.valor_total}}</td>
+            <td>{{pedido.comanda}}</td>
+            <td><a href="{% url 'pagina_inserir_produto_no_pedido' pedido.id %}">Adicionar Produto</a></td>
+            <td><a href="{% url 'fechar_pedido' pedido.id %}">Fechar Pedido</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
